@@ -19,7 +19,7 @@ services:
     container_name: spa_composer
     image: composer:latest
     volumes:
-      - ./:/app
+      - ./laravel:/app
     entrypoint: composer
 
   node:
