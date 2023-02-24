@@ -14,7 +14,13 @@
     </ul>
 
     <div class="panel" v-show="tab === 1">
-      <form class="form">
+      <form class="form" @submit.prevent="login">
+      <!--
+      formタグ宣言時に設定する
+      @submitに続く.preventはイベント修飾子と呼ばれる
+      .preventを記述することは、イベントハンドラでevent.preventDefault()を呼び出すのと同じ効果がある
+      これにより、デフォルトのフォーム送信のょどうをキャンセルし、ページをリロードする
+      -->
         <label for="login-email">Email</label>
         <input type="text" class="form__item" id="login-email" v-model="loginForm.email">
         <!--
@@ -45,6 +51,11 @@ export default {
         email: '',
         password: ''
       },
+    }
+  },
+  methods: {
+    login () {
+      console.log(this.loginForm)
     }
   }
 }
