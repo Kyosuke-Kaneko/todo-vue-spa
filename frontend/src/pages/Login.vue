@@ -3,16 +3,20 @@
     <ul class="tab">
       <li
           class="tab__item"
+          :class="{'tab__item--active': tab === 1 }"
           @click="tab = 1"
-      >Login
-      </li>
+      >Login</li>
       <li
           class="tab__item"
+          :class="{'tab__item--active': tab === 2 }"
           @click="tab = 2"
-      >Register
-      </li>
+      >Register</li>
     </ul>
-    {{ tab }}
+    <div class="panel" v-show="tab === 1">Login Form</div>
+    <div class="panel" v-show="tab === 2">Register Form</div>
+    <!--
+    v-showディレクティブを使えば、tabが特定の値の時のみ表示される
+    -->
   </div>
 </template>
 
