@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Responders\Api\Auth;
 
 use App\Exceptions\UndefinedStatusException;
@@ -13,7 +15,8 @@ class RegisterResponder extends ApiResponder
     {
         if ($payload->getStatus() === Payload::SUCCEED) {
             return $this->responseFactory->json(
-                status: Response::HTTP_CREATED
+                data: $payload->getOutput(),
+                status: Response::HTTP_CREATED,
             );
         }
 

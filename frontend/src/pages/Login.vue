@@ -79,7 +79,14 @@ export default {
       console.log(this.loginForm)
     },
     register () {
-      console.log(this.registerForm)
+      // authストアのregisterアクションを呼び出す
+      this.$store.dispatch('auth/register', this.registerForm)
+      // アクションを呼び出すにはdispatchメソッド
+      // dispatchメソッドの第一引数はアクションの名前
+      // authストアを作成した時にnamespacedをtrueとして名前空間を有効化させたので、
+      // モジュール名を頭につけたauth/registerをいう名前でアクションを指定
+
+      this.$router.push('/')
     }
   }
 }

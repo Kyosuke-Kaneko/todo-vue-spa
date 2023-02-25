@@ -1,18 +1,35 @@
-const state = {}
+import axios from 'axios'
 
-const getters = {}
-
-const mutations = {}
-
-const actions = {}
-
-export default {
+const auth = {
     namespaced: true,
-    state,
-    getters,
-    mutations,
-    actions
+
+    state() {
+        return {
+            user: null // ログイン済みユーザーを保持する
+        }
+    },
+
+    mutations: {
+        setUser(state, user) { // userステートの値を更新する
+            state.user = user
+        }
+    },
+
+    actions: {
+        register(context, data) {
+            return new Promise((resolve) => {
+                axios.post('/api/register', data)
+                    .then((response) => {
+                        context.commit('setUser', response.data.user)
+                        resolve(true)
+                })
+            })
+        }
+        // アクション → コミットでミューテーション呼び出し → ステート更新
+    }
 }
+
+export default auth
 
 /*
 Vuexは、Vueのために開発された状態管理ライブラリ

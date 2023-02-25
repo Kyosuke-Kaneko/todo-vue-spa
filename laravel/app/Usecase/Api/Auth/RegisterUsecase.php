@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Usecase\Api\Auth;
 
 use App\Http\Payload;
@@ -36,6 +38,7 @@ readonly class RegisterUsecase
         Auth::guard()->login($user);
 
         return (new Payload())
+            ->setOutput(compact('user'))
             ->setStatus(Payload::SUCCEED);
     }
 }
