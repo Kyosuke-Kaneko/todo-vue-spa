@@ -20,12 +20,27 @@ const auth = {
             return new Promise((resolve) => {
                 axios.post('/api/register', data)
                     .then((response) => {
-                        context.commit('setUser', response.data.user)
+                        context.commit('setUser', response.data)
                         resolve(true)
-                })
+                    })
+            })
+        },
+        // アクション → コミットでミューテーション呼び出し → ステート更新
+
+        login(context, data) {
+            return new Promise((resolve) => {
+                axios.get('/sanctum/csrf-cookie')
+                    .then(() => {
+                        axios.post('/api/login', data)
+                            .then((response) => {
+                                console.log(response)
+                                console.log(response.data)
+                                context.commit('setUser', response.data)
+                                resolve(true)
+                            })
+                    })
             })
         }
-        // アクション → コミットでミューテーション呼び出し → ステート更新
     }
 }
 

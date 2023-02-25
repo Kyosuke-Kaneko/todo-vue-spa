@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Usecase\Api\Auth;
 
 use App\Http\Payload;
@@ -19,6 +21,7 @@ class LoginUsecase
             $request->session()->regenerate();
 
             return (new Payload())
+                ->setOutput(Auth::user())
                 ->setStatus(Payload::SUCCEED);
         }
 

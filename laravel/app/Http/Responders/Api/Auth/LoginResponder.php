@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Responders\Api\Auth;
 
 use App\Exceptions\UndefinedStatusException;
@@ -12,7 +14,10 @@ class LoginResponder extends ApiResponder
     public function handle(Payload $payload): Response
     {
         if ($payload->getStatus() === Payload::SUCCEED) {
-            return $this->responseFactory->json();
+            return $this->responseFactory->json(
+                data: $payload->getOutput(),
+                status: Response::HTTP_OK,
+            );
         }
 
         if ($payload->getStatus() === Payload::FAILED) {

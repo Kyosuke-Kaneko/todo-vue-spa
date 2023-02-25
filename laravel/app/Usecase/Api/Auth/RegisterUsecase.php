@@ -38,7 +38,7 @@ readonly class RegisterUsecase
         Auth::guard()->login($user);
 
         return (new Payload())
-            ->setOutput(compact('user'))
+            ->setOutput($user)
             ->setStatus(Payload::SUCCEED);
     }
 }

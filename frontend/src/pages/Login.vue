@@ -76,7 +76,8 @@ export default {
   },
   methods: {
     login () {
-      console.log(this.loginForm)
+      this.$store.dispatch('auth/login', this.loginForm)
+      this.$router.push('/')
     },
     register () {
       // authストアのregisterアクションを呼び出す
