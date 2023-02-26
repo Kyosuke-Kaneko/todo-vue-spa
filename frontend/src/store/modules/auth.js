@@ -40,6 +40,16 @@ const auth = {
                             })
                     })
             })
+        },
+
+        logout(context) {
+            return new Promise((resolve) => {
+                axios.post('/api/logout')
+                    .then(() => {
+                        context.commit('setUser', null)
+                        resolve(true)
+                    })
+            })
         }
     }
 }
