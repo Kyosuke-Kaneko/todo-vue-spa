@@ -15,6 +15,9 @@ const auth = {
         },
         username(state) {
             return state.user ? state.user.name : ''
+        },
+        user(state) {
+            return state.user
         }
     },
 
@@ -42,8 +45,6 @@ const auth = {
                     .then(() => {
                         axios.post('/api/login', data)
                             .then((response) => {
-                                console.log(response)
-                                console.log(response.data)
                                 context.commit('setUser', response.data)
                                 resolve(true)
                             })
