@@ -9,6 +9,15 @@ const auth = {
         }
     },
 
+    getters: {
+        check(state) {
+            return !! state.user
+        },
+        username(state) {
+            return state.user ? state.user.name : ''
+        }
+    },
+
     mutations: {
         setUser(state, user) { // userステートの値を更新する
             state.user = user

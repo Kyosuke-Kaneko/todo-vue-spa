@@ -4,16 +4,16 @@
       Vuesplash
     </RouterLink>
     <div className="navbar__menu">
-      <div className="navbar__item">
+      <div v-if="isLogin" className="navbar__item">
         <button className="button">
           <i className="icon ion-md-add"></i>
           Submit a photo
         </button>
       </div>
-      <span className="navbar__item">
-        username
+      <span v-if="isLogin" className="navbar__item">
+        {{ username }}
       </span>
-      <div className="navbar__item">
+      <div v-else className="navbar__item">
         <RouterLink class="button button--link" to="/login">
           Login / Register
         </RouterLink>
@@ -29,3 +29,16 @@ RouterLinkはRouterViewと同様、VueRouterから提供されているコンポ
 
 RouterLinkで描画したリンクをクリックすると、VueRouterによるコンポーネントの切り替わりが発生
 -->
+
+<script>
+export default {
+  computed: {
+    isLogin() {
+      return this.$store.getters['auth/check']
+    },
+    username() {
+      return this.$store.getters['auth/username']
+    }
+  }
+}
+</script>
