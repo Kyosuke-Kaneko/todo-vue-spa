@@ -1,11 +1,13 @@
 import axios from 'axios'
+import { UNPROCESSABLE_ENTITY } from '@/util'
 
 const auth = {
     namespaced: true,
 
     state() {
         return {
-            user: null // ログイン済みユーザーを保持する
+            user: null, // ログイン済みユーザーを保持する
+            apiStatus: null,
         }
     },
 
@@ -24,7 +26,10 @@ const auth = {
     mutations: {
         setUser(state, user) { // userステートの値を更新する
             state.user = user
-        }
+        },
+        setApiStatus(state, status) {
+            state.apiStatus = status
+        },
     },
 
     actions: {
@@ -46,8 +51,17 @@ const auth = {
                         axios.post('/api/login', data)
                             .then((response) => {
                                 context.commit('setUser', response.data)
+                                context.commit('setApiStatus', true)
                                 resolve(true)
-                            })
+                            }).catch((error) => {
+                            // eslint-disable-next-line no-empty
+                                if (error.data === UNPROCESSABLE_ENTITY) {
+                                }
+                                context.commit('setApiStatus', false)
+                                context.commit('error/setCodes', error.response.status, { root: true })
+                            // あるストアモジュールから別のモジュールのミューテーションをcommitする場合、
+                            // 第三引数に{ root:true }を追加する
+                        })
                     })
             })
         },

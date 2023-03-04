@@ -74,10 +74,20 @@ export default {
       }
     }
   },
+
+  computed: {
+    apiStatus () {
+      return this.$store.state.auth.apiStatus
+    }
+  },
+
   methods: {
     login () {
       this.$store.dispatch('auth/login', this.loginForm)
-      this.$router.push('/')
+      if (this.apiStatus) {
+        // apiStatusが成功したとき、トップページに遷移
+        this.$router.push('/')
+      }
     },
     register () {
       // authストアのregisterアクションを呼び出す

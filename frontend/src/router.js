@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 import store from './store'
+import SystemError from './pages/errors/System.vue'
 
 // ページコンポーネントをインポートする
 import PhotoList from './pages/PhotoList.vue'
@@ -30,6 +31,10 @@ const routes = [
         // next()を引数なしで呼ぶとそのままページコンポーネントが切り替わる
         // 引数ありでnext()を呼ぶと、切り替わるはずのページコンポーネントは生成されず、引数のページに切り替わり、リダイレクトのようになる
         // TODO beforeEachを使用して実現できるようにする
+    },
+    {
+        path: '/500',
+        component: SystemError
     }
 ]
 
