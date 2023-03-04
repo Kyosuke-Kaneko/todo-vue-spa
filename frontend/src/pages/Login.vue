@@ -26,10 +26,19 @@
         <!--
         v-modelは、入力値をデータと同期する
         -->
-
+        <div v-if="loginErrors" class="errors">
+          <ul v-if="loginErrors.email">
+            <li v-for="msg in loginErrors.email" :key="msg">{{ msg }}</li>
+          </ul>
+        </div>
         <label for="login-password">Password</label>
         <input type="password" class="form__item" id="login-password" v-model="loginForm.password">
 
+        <div v-if="loginErrors" class="errors">
+          <ul v-if="loginErrors.password">
+            <li v-for="msg in loginErrors.password" :key="msg">{{ msg }}</li>
+          </ul>
+        </div>
         <div class="form__button">
           <button type="submit" class="button button--inverse">login</button>
         </div>
@@ -78,6 +87,9 @@ export default {
   computed: {
     apiStatus () {
       return this.$store.state.auth.apiStatus
+    },
+    loginErrors () {
+      return this.$store.state.auth.loginErrorMessages
     }
   },
 

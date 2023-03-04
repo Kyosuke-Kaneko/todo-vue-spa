@@ -8,6 +8,7 @@ const auth = {
         return {
             user: null, // ログイン済みユーザーを保持する
             apiStatus: null,
+            loginErrorMessages: null,
         }
     },
 
@@ -30,6 +31,9 @@ const auth = {
         setApiStatus(state, status) {
             state.apiStatus = status
         },
+        setLoginErrorMessages (state, messages) {
+            state.loginErrorMessages = messages
+        }
     },
 
     actions: {
@@ -54,10 +58,12 @@ const auth = {
                                 context.commit('setApiStatus', true)
                                 resolve(true)
                             }).catch((error) => {
-                            // eslint-disable-next-line no-empty
-                                if (error.data === UNPROCESSABLE_ENTITY) {
+                                if (error.response.status === UNPROCESSABLE_ENTITY) {
+                                    console.log(error.response.data.errors)
+                                    context.commit('setLoginErrorMessages', error.response.data.errors)
+                                } else {
+                                    context.commit('setApiStatus', false)
                                 }
-                                context.commit('setApiStatus', false)
                                 context.commit('error/setCodes', error.response.status, { root: true })
                             // あるストアモジュールから別のモジュールのミューテーションをcommitする場合、
                             // 第三引数に{ root:true }を追加する
