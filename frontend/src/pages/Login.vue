@@ -26,16 +26,16 @@
         <!--
         v-modelは、入力値をデータと同期する
         -->
-        <div v-if="loginErrors" class="errors">
-          <ul v-if="loginErrors.email">
+        <div v-if="loginErrors">
+          <ul v-if="loginErrors.email" class="errors">
             <li v-for="msg in loginErrors.email" :key="msg">{{ msg }}</li>
           </ul>
         </div>
         <label for="login-password">Password</label>
         <input type="password" class="form__item" id="login-password" v-model="loginForm.password">
 
-        <div v-if="loginErrors" class="errors">
-          <ul v-if="loginErrors.password">
+        <div v-if="loginErrors">
+          <ul v-if="loginErrors.password" class="errors">
             <li v-for="msg in loginErrors.password" :key="msg">{{ msg }}</li>
           </ul>
         </div>
@@ -110,7 +110,14 @@ export default {
       // モジュール名を頭につけたauth/registerをいう名前でアクションを指定
 
       this.$router.push('/')
+    },
+    clearError () {
+      this.$store.commit('auth/setLoginErrorMessages', null)
     }
+  },
+
+  mounted () {
+    this.clearError()
   }
 }
 </script>

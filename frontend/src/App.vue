@@ -57,3 +57,7 @@ export default {
 
 }
 </script>
+
+<style>
+@import '.././scss/main.scss';
+</style>
