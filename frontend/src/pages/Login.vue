@@ -49,12 +49,36 @@
       <form class="form" @submit.prevent="register">
         <label for="username">Name</label>
         <input type="text" class="form__item" id="username" v-model="registerForm.name">
+        <div v-if="registerErrors">
+          <ul v-if="registerErrors.name" class="errors">
+            <li v-for="msg in registerErrors.name" :key="msg">{{ msg }}</li>
+          </ul>
+        </div>
+
         <label for="email">Email</label>
         <input type="text" class="form__item" id="email" v-model="registerForm.email">
+        <div v-if="registerErrors">
+          <ul v-if="registerErrors.email" class="errors">
+            <li v-for="msg in registerErrors.email" :key="msg">{{ msg }}</li>
+          </ul>
+        </div>
+
         <label for="password">Password</label>
         <input type="password" class="form__item" id="password" v-model="registerForm.password">
+        <div v-if="registerErrors">
+          <ul v-if="registerErrors.password" class="errors">
+            <li v-for="msg in registerErrors.password" :key="msg">{{ msg }}</li>
+          </ul>
+        </div>
+
         <label for="password-confirmation">Password (confirm)</label>
         <input type="password" class="form__item" id="password-confirmation" v-model="registerForm.password_confirmation">
+        <div v-if="registerErrors">
+          <ul v-if="registerErrors.password_confirmation" class="errors">
+            <li v-for="msg in registerErrors.password_confirmation" :key="msg">{{ msg }}</li>
+          </ul>
+        </div>
+
         <div class="form__button">
           <button type="submit" class="button button--inverse">register</button>
         </div>
@@ -90,6 +114,7 @@ export default {
     ...mapState({
       apiStatus: state => state.auth.apiStatus,
       loginErrors: state => state.auth.loginErrorMessages,
+      registerErrors: state => state.auth.registerErrorMessages
     }),
   },
 
@@ -109,10 +134,13 @@ export default {
       // authストアを作成した時にnamespacedをtrueとして名前空間を有効化させたので、
       // モジュール名を頭につけたauth/registerをいう名前でアクションを指定
 
-      this.$router.push('/')
+      if (this.apiStatus) {
+        this.$router.push('/')
+      }
     },
     clearError () {
       this.$store.commit('auth/setLoginErrorMessages', null)
+      this.$store.commit('auth/setRegisterErrorMessages', null)
     }
   },
 

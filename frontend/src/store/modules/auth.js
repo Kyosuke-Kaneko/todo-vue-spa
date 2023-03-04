@@ -9,6 +9,7 @@ const auth = {
             user: null, // ログイン済みユーザーを保持する
             apiStatus: null,
             loginErrorMessages: null,
+            registerErrorMessages: null,
         }
     },
 
@@ -21,7 +22,7 @@ const auth = {
         },
         user(state) {
             return state.user
-        }
+        },
     },
 
     mutations: {
@@ -33,7 +34,10 @@ const auth = {
         },
         setLoginErrorMessages (state, messages) {
             state.loginErrorMessages = messages
-        }
+        },
+        setRegisterErrorMessages (state, messages) {
+            state.registerErrorMessages = messages
+        },
     },
 
     actions: {
@@ -42,8 +46,15 @@ const auth = {
                 axios.post('/api/register', data)
                     .then((response) => {
                         context.commit('setUser', response.data)
+                        context.commit('setApiStatus', true)
                         resolve(true)
-                    })
+                    }).catch((error) => {
+                        if (error.response.status === UNPROCESSABLE_ENTITY) {
+                            context.commit('setRegisterErrorMessages', error.response.data.errors)
+                        }
+                        context.commit('setApiStatus', false)
+                        context.commit('error/setCodes', error.response.status, { root: true })
+                })
             })
         },
         // アクション → コミットでミューテーション呼び出し → ステート更新
@@ -59,7 +70,6 @@ const auth = {
                                 resolve(true)
                             }).catch((error) => {
                                 if (error.response.status === UNPROCESSABLE_ENTITY) {
-                                    console.log(error.response.data.errors)
                                     context.commit('setLoginErrorMessages', error.response.data.errors)
                                 } else {
                                     context.commit('setApiStatus', false)
