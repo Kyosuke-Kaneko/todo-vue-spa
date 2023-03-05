@@ -5,8 +5,8 @@
     </RouterLink>
     <div className="navbar__menu">
       <div v-if="isLogin" className="navbar__item">
-        <button className="button">
-          <i className="icon ion-md-add"></i>
+        <button class="button" @click="showForm = !showForm">
+          <i class="icon ion-md-add"></i>
           Submit a photo
         </button>
       </div>
@@ -19,6 +19,8 @@
         </RouterLink>
       </div>
     </div>
+    <PhotoForm v-model:value="showForm" value />
+<!--    子コンポーネントで「value」と定義されているので、valueを：の後に指定する-->
   </nav>
 </template>
 
@@ -31,7 +33,19 @@ RouterLinkで描画したリンクをクリックすると、VueRouterによる�
 -->
 
 <script>
+import PhotoForm from './PhotoForm.vue'
+
 export default {
+  components: {
+    PhotoForm,
+  },
+
+  data () {
+    return {
+      showForm: false,
+    }
+  },
+
   computed: {
     isLogin() {
       return this.$store.getters['auth/check']
