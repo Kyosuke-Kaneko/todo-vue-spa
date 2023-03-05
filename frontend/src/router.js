@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import store from './store'
 import SystemError from './pages/errors/System.vue'
+import PhotoDetail from './pages/PhotoDetail.vue'
 
 // ページコンポーネントをインポートする
 import PhotoList from './pages/PhotoList.vue'
@@ -12,6 +13,11 @@ const routes = [
     {
         path: '/',
         component: PhotoList,
+    },
+    {
+        path: '/photos/:id',
+        component: PhotoDetail,
+        props: true
     },
     {
         path: '/login',
