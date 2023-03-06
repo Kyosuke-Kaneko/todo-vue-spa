@@ -3,6 +3,11 @@
     <h2 class="title">Submit a photo</h2>
     <form class="form" @submit.prevent="submit">
 
+      <div class="errors" v-if="errors">
+        <ul v-if="errors.photo">
+          <li v-for="msg in errors.photo" :key="msg">{{ msg }}</li>
+        </ul>
+      </div>
       <input class="form__item" type="file" @change="onFileChange"
       accept="image/*">
       <output class="form__output" v-if="preview">
@@ -30,6 +35,7 @@ PhotoForm → $emit('input', ...) → Navbar
 
 <script>
 import axios from 'axios'
+import {UNPROCESSABLE_ENTITY} from "@/util";
 
 export default {
   props: {
@@ -48,6 +54,7 @@ export default {
     return {
       preview: null,
       photo: null,
+      errors: null,
     }
   },
 
@@ -90,13 +97,22 @@ export default {
     async submit () {
       const formData = new FormData()
       formData.append('photo', this.photo)
-      // eslint-disable-next-line no-unused-vars
-      const response = await axios.post('/api/photo', formData)
+      await axios.post('/api/photo', formData)
+          .then((response) => {
+            this.$router.push(`/photos/${response.data.id}`)
+          })
+          .catch((error) => {
+            if (error.response.status === UNPROCESSABLE_ENTITY) {
+              this.errors = error.response.data.errors
+              return false
+            } else {
+              this.reset()
+              this.$emit('input', false)
 
-      this.reset()
-      this.$emit('input', false)
-
-      this.$router.push(`/photos/${response.data.id}`)
+              this.$store.commit('error/setCodes', error.response.status)
+              return false
+            }
+          })
     }
   }
 }
