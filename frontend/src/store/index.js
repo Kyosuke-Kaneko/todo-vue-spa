@@ -3,6 +3,7 @@ import createPersistedState from 'vuex-persistedstate'
 
 import auth from './modules/auth'
 import error from './modules/error'
+import message from './modules/message'
 
 export default createStore({
     plugins: [
@@ -17,5 +18,6 @@ export default createStore({
     modules: {
         auth,
         error,
+        message,
     }
 })

@@ -112,6 +112,11 @@ export default {
           .then((response) => {
             this.$router.push(`/photos/${response.data.id}`)
             this.loading = false
+
+            this.$store.commit('message/setContent', {
+              content: '写真が投稿されました！',
+              timeout: 6000
+            })
           })
           .catch((error) => {
             if (error.response.status === UNPROCESSABLE_ENTITY) {
