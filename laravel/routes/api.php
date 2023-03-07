@@ -18,6 +18,8 @@ Route::post('/login', Actions\Api\Auth\LoginAction::class)->name('login');
 Route::post('/logout', Actions\Api\Auth\LogoutAction::class)->name('logout');
 Route::post('/register', Actions\Api\Auth\RegisterAction::class)->name('register');
 
+Route::get('/photo', Actions\Api\Photo\IndexAction::class)->name('photo.index');
+
 Route::middleware('auth')->group(function () {
     Route::post('/photo', Actions\Api\Photo\CreateAction::class)->name('photo.create');
 });
