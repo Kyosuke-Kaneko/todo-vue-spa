@@ -8,6 +8,7 @@
           :item="photo"
       />
     </div>
+    <Pagination :current-page="currentPage" :last-page="lastPage" />
   </div>
 </template>
 
@@ -15,15 +16,28 @@
 import axios from 'axios'
 
 import Photo from '../components/Photo.vue'
+import Pagination from '../components/Pagination.vue'
 
 export default {
+  props: {
+    page: {
+      type: Number,
+      required: false,
+      default: 1,
+    }
+  },
+  // ルーターから渡されるpageプロパティを受け取るため、propsを追加
+
   components: {
     Photo,
+    Pagination,
   },
 
   data () {
     return {
       photos: [],
+      currentPage: 0,
+      lastPage: 0,
     }
   },
 
@@ -31,6 +45,8 @@ export default {
     async fetchPhotos () {
       await axios.get('/api/photo').then((response) => {
         this.photos = response.data.data
+        this.currentPage = response.data.current_page
+        this.lastPage = response.data.last_page
       })
     }
   },

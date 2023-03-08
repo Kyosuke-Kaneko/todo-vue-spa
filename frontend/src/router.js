@@ -13,6 +13,15 @@ const routes = [
     {
         path: '/',
         component: PhotoList,
+        props: route => {
+            const page = route.query.pages
+            return {
+                page: /^[1-9][0-9]*$/.test(page) ? page * 1 : 1
+            }
+            // propsを追加することで、<PhotoList>コンポーネントにクエリパラメータpageの値が、pageというpropsとして渡される
+            // propsに関数を指定する場合は、その返却ちがprops敏江tページコンポーネントに渡される
+            // そしてその関数の引数はルート情報を表すroute
+        }
     },
     {
         path: '/photos/:id',

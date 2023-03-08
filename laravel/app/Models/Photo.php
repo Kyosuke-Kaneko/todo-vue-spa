@@ -17,6 +17,8 @@ class Photo extends Model
 
     public $incrementing = false;
 
+    protected $perPage = 9;
+
     protected $fillable = [
         'id',
         'user_id',
