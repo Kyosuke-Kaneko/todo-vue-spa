@@ -20,6 +20,7 @@ Route::post('/register', Actions\Api\Auth\RegisterAction::class)->name('register
 
 Route::get('/photo', Actions\Api\Photo\IndexAction::class)->name('photo.index');
 Route::get('/photo/{photo}/download', Actions\Api\Photo\DownloadAction::class);
+Route::get('/photo/{photo}', Actions\Api\Photo\ShowAction::class)->name('photo.show');
 
 Route::middleware('auth')->group(function () {
     Route::post('/photo', Actions\Api\Photo\CreateAction::class)->name('photo.create');
