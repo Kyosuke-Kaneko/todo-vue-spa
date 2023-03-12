@@ -25,7 +25,7 @@ readonly class DeleteUsecase
 
             $this->connection->commit();
         } catch (\Exception $e) {
-            \Log::debug($e);
+            \Log::error($e);
 
             $this->connection->rollBack();
 
