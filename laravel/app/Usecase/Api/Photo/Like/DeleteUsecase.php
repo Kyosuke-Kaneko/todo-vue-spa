@@ -2,27 +2,26 @@
 
 declare(strict_types=1);
 
-namespace App\Usecase\Api\Photo\Comment;
+namespace App\Usecase\Api\Photo\Like;
 
 use App\Http\Payload;
-use App\Http\Requests\Api\Photo\Comment\CreateRequest;
+use App\Http\Requests\Api\Photo\Like\DeleteRequest;
 use App\Models\Photo;
 use Illuminate\Database\ConnectionInterface;
 use Illuminate\Support\Facades\Auth;
 
-readonly class CreateUsecase
+readonly class DeleteUsecase
 {
     public function __construct(private ConnectionInterface $connection) {}
 
-    public function run(Photo $photo, CreateRequest $request): Payload
+    public function run(Photo $photo): Payload
     {
+        $photo->with('likes')->first();
+
         try {
             $this->connection->beginTransaction();
 
-            $comments = $photo->comments()->create([
-                'content' => $request->get('content'),
-                'user_id' => Auth::id(),
-            ]);
+            $photo->likes()->detach(Auth::id());
 
             $this->connection->commit();
         } catch (\Exception $e) {
@@ -34,10 +33,8 @@ readonly class CreateUsecase
                 ->setStatus(Payload::FAILED);
         }
 
-        $commentsWith = $comments->with(['author'])->get();
-
         return (new Payload())
-            ->setOutput($commentsWith)
+            ->setOutput(['photo_id' => $photo->id])
             ->setStatus(Payload::SUCCEED);
     }
 }
