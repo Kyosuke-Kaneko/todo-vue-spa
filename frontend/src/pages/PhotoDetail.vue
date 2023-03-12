@@ -18,7 +18,7 @@
       <h2 class="photo-detail__title">
         <i class="icon ion-md-chatboxes"></i>Comments
       </h2>
-      <form @submit.prevent="addComment" class="form">
+      <form v-if="isLogin" @submit.prevent="addComment" class="form">
         <div v-if="commentErrors" class="errors">
           <ul v-if="commentErrors.content">
             <li v-for="msg in commentErrors.content" :key="msg">{{ msg }}</li>
@@ -53,6 +53,12 @@ export default {
       fullWidth: false,
       commentContent: '',
       commentErrors: null,
+    }
+  },
+
+  computed: {
+    isLogin () {
+      return this.$store.getters['auth/check']
     }
   },
 
