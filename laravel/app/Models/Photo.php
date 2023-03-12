@@ -9,6 +9,31 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Storage;
 
+/**
+ * App\Models\Photo
+ *
+ * @property string $id
+ * @property int $user_id
+ * @property string $filename
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Comment> $comments
+ * @property-read int|null $comments_count
+ * @property-read string $url
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $likes
+ * @property-read int|null $likes_count
+ * @property-read \App\Models\User $owner
+ * @method static \Database\Factories\PhotoFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|Photo newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Photo newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Photo query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Photo whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Photo whereFilename($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Photo whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Photo whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Photo whereUserId($value)
+ * @mixin \Eloquent
+ */
 class Photo extends Model
 {
     use HasFactory;
