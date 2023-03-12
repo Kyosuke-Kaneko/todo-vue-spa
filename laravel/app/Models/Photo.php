@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -52,15 +53,21 @@ class Photo extends Model
         'filename',
     ];
 
+    // jsonに含めるアクセサ
     protected $appends = [
         'url',
+        'likes_count',
+        'liked_by_user',
     ];
 
+    // jsonに含める属性
     protected $visible = [
         'id',
         'owner',
         'url',
         'comments',
+        'likes_count',
+        'liked_by_user',
     ];
 
     public function owner(): BelongsTo
@@ -82,5 +89,19 @@ class Photo extends Model
     public function getUrlAttribute(): string
     {
         return Storage::cloud()->url($this->attributes['filename']);
+    }
+
+    public function getLikesCountAttribute(): int
+    {
+        return $this->likes->count();
+    }
+
+    public function getLikedByUserAttribute(): bool
+    {
+        if (Auth::guest()) return false;
+
+        return $this->likes->contains(function ($user) {
+            return $user->id === Auth::id();
+        });
     }
 }

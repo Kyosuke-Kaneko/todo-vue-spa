@@ -13,7 +13,7 @@ readonly class IndexUsecase
 {
     public function run(): Payload
     {
-        $photo = Photo::with(['owner'])
+        $photo = Photo::with(['owner', 'likes'])
             ->orderBy(Model::CREATED_AT, 'desc')
             ->paginate();
 

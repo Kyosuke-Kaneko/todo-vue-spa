@@ -11,7 +11,7 @@ readonly class ShowUsecase
 {
     public function run(Photo $photo): Payload
     {
-        $photo = $photo->with(['owner', 'comments.author'])->first();
+        $photo = $photo->with(['owner', 'comments.author', 'likes'])->first();
 
         if ($photo) {
             return (new Payload())
