@@ -20,7 +20,7 @@ class LikeApiTest extends TestCase
 
         $this->user = User::factory()->create();
 
-        User::factory()->create();
+        Photo::factory()->create();
         $this->photo = Photo::first();
     }
 
@@ -40,15 +40,13 @@ class LikeApiTest extends TestCase
                 ])
             );
 
-        $response->assertStatus(Response::HTTP_OK);
+        $response->assertStatus(Response::HTTP_CREATED);
 
         $response->assertJsonFragment([
             'photo_id' => $this->photo->id,
         ]);
 
         $this->assertEquals(1, $this->photo->likes()->count());
-
-        $response->assertStatus(200);
     }
 
     /**

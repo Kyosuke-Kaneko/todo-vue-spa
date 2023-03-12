@@ -20,6 +20,6 @@ class DeleteAction extends Controller
 
     public function __invoke(Photo $photo, DeleteRequest $request): Response
     {
-        return $this->responder->handle($this->usecase->run($photo, $request));
+        return $this->responder->handle($this->usecase->run($photo));
     }
 }

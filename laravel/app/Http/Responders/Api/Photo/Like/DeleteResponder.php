@@ -16,7 +16,7 @@ class DeleteResponder extends ApiResponder
         if ($payload->getStatus() === Payload::SUCCEED) {
             return $this->responseFactory->json(
                 data: $payload->getOutput(),
-                status: Response::HTTP_CREATED,
+                status: Response::HTTP_OK,
             );
         }
 

@@ -20,6 +20,6 @@ class CreateAction extends Controller
 
     public function __invoke(Photo $photo, CreateRequest $request): Response
     {
-        return $this->responder->handle($this->usecase->run($photo, $request));
+        return $this->responder->handle($this->usecase->run($photo));
     }
 }
