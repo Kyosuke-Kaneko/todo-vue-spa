@@ -94,8 +94,7 @@ export default {
         this.commentErrors = null
 
         this.photo.comments = [
-          response.data,
-          ...this.photo.comments
+          ...response.data
         ]
       }).catch((error) => {
         if (error.response.status === UNPROCESSABLE_ENTITY) {
