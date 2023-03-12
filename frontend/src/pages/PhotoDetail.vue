@@ -18,6 +18,24 @@
       <h2 class="photo-detail__title">
         <i class="icon ion-md-chatboxes"></i>Comments
       </h2>
+
+      <ul v-if="photo.comments.length > 0" class="photo-detail__comments">
+        <li
+          v-for="comment in photo.comments"
+          :key="comment.content"
+          class="photo-detail__commentItem"
+        >
+          <p class="photo-detail__commentBody">
+            {{ comment.content }}
+          </p>
+
+          <p class="photo-detail__commentInfo">
+            {{ comment.author.name }}
+          </p>
+        </li>
+      </ul>
+      <p v-else>No comments yet.</p>
+
       <form v-if="isLogin" @submit.prevent="addComment" class="form">
         <div v-if="commentErrors" class="errors">
           <ul v-if="commentErrors.content">
@@ -49,7 +67,7 @@ export default {
 
   data () {
     return {
-      photo: null,
+      photo: null, // Object
       fullWidth: false,
       commentContent: '',
       commentErrors: null,
@@ -71,9 +89,14 @@ export default {
     async addComment () {
       await axios.post(`/api/photo/${this.id}/comments`, {
         content: this.commentContent,
-      }).then(() => {
+      }).then((response) => {
         this.commentContent = ''
         this.commentErrors = null
+
+        this.photo.comments = [
+          response.data,
+          ...this.photo.comments
+        ]
       }).catch((error) => {
         if (error.response.status === UNPROCESSABLE_ENTITY) {
           this.commentErrors = error.response.data.errors
