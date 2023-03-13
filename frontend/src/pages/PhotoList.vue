@@ -6,6 +6,7 @@
           v-for="photo in photos"
           :key="photo.id"
           :item="photo"
+          @like="onLikeClick"
       />
     </div>
     <Pagination :current-page="currentPage" :last-page="lastPage" />
@@ -47,6 +48,49 @@ export default {
         this.photos = response.data.data
         this.currentPage = response.data.current_page
         this.lastPage = response.data.last_page
+      })
+    },
+
+    onLikeClick({id, liked}) {
+      if (! this.$store.getters['auth/check']) {
+        alert('いいね機能を使うにはログインしてください')
+        return false
+      }
+
+      if (liked) {
+        this.unlike(id)
+      } else {
+        this.like(id)
+      }
+    },
+
+    async like (photo) {
+      await axios.put(`/api/photo/${photo}/like`).then((response) => {
+        this.photos = this.photos.map(photo => {
+          if (photo.id === response.data.photo_id) {
+            photo.likes_count += 1
+            photo.liked_by_user = true
+          }
+
+          return photo
+        })
+      }).catch((error) => {
+        this.$store.commit('error/setCodes', error.response.data.status)
+      })
+    },
+
+    async unlike (photo) {
+      await axios.delete(`/api/photo/${photo}/like`).then((response) => {
+        this.photos = this.photos.map(photo => {
+          if (photo.id === response.data.photo_id) {
+            photo.likes_count -= 1
+            photo.liked_by_user = false
+          }
+
+          return photo
+        })
+      }).catch((error) => {
+        this.$store.commit('error/setCodes', error.response.data.status)
       })
     }
   },

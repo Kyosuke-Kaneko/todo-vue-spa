@@ -25,6 +25,6 @@ Route::post('/photo/{photo}/comments', Actions\Api\Photo\Comment\CreateAction::c
 
 Route::middleware('auth')->group(function () {
     Route::post('/photo', Actions\Api\Photo\CreateAction::class)->name('photo.create');
-    Route::put('/photos/{photo}/like', Actions\Api\Photo\Like\CreateAction::class)->name('photo.like');
-    Route::delete('/photos/{photo}/like', Actions\Api\Photo\Like\DeleteAction::class)->name('photo.unlike');
+    Route::put('/photo/{photo}/like', Actions\Api\Photo\Like\CreateAction::class)->name('photo.like');
+    Route::delete('/photo/{photo}/like', Actions\Api\Photo\Like\DeleteAction::class)->name('photo.unlike');
 });
