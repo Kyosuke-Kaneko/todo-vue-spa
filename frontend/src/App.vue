@@ -21,7 +21,8 @@
 </template>
 
 <script>
-import { INTERNAL_SERVER_ERROR } from './util'
+import axios from 'axios'
+import { TOKEN_EXPIRED, INTERNAL_SERVER_ERROR } from './util'
 
 import Navbar from './components/Navbar.vue'
 import Footer from './components/Footer.vue'
@@ -42,9 +43,14 @@ export default {
 
   watch: {
     errorCode: {
-      handler (val) {
+      async handler (val) {
         if (val === INTERNAL_SERVER_ERROR) {
           this.$router.push('/500')
+        } else if (val === TOKEN_EXPIRED) {
+          await axios.get('/api/refresh-token')
+          // ストアのユーザーをクリアをしないと、ログインページにアクセスできない
+          this.$store.commit('auth/setUser', null)
+          this.$router.push('/login')
         }
       },
 

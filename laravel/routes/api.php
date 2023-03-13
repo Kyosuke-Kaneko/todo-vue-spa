@@ -14,6 +14,8 @@ use App\Http\Actions;
 |
 */
 
+Route::get('/refresh-token', Actions\Api\Auth\TokenAction::class)->name('token');
+
 Route::post('/login', Actions\Api\Auth\LoginAction::class)->name('login');
 Route::post('/logout', Actions\Api\Auth\LogoutAction::class)->name('logout');
 Route::post('/register', Actions\Api\Auth\RegisterAction::class)->name('register');
