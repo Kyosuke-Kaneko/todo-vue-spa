@@ -22,7 +22,7 @@
 
 <script>
 import axios from 'axios'
-import { TOKEN_EXPIRED, INTERNAL_SERVER_ERROR } from './util'
+import { NOT_FOUND, TOKEN_EXPIRED, INTERNAL_SERVER_ERROR } from './util'
 
 import Navbar from './components/Navbar.vue'
 import Footer from './components/Footer.vue'
@@ -51,6 +51,8 @@ export default {
           // ストアのユーザーをクリアをしないと、ログインページにアクセスできない
           this.$store.commit('auth/setUser', null)
           this.$router.push('/login')
+        } else if (val === NOT_FOUND) {
+          this.$router.push('/not-found')
         }
       },
 
