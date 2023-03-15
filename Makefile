@@ -1,5 +1,6 @@
 install:
 	cp laravel/.env.example laravel/.env
+	docker-compose run --rm node npm install
 	docker-compose up --build -d
 	docker-compose exec php-fpm composer install
 	docker-compose exec php-fpm php artisan key:generate
